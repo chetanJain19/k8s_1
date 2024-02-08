@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicaset
+spec:
+  replicas: 3  
+  selector:
+    matchLabels:
+      app: jenkins_q
+  template:
+    metadata:
+      labels:
+        app: jenkins_q
+    spec:
+      containers:
+      - name: jenkins-continer
+        image: jenkins/jenkins:lts
+        ports:
+          - containerPort: 8080
+          - containerPort: 50000 
+
