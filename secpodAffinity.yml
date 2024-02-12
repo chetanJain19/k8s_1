@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: podaffinity
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+      - name: jenkins
+        image: jenkins/jenkins:lts
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: env
+                operator: In
+                values:
+                - qa
+            topologyKey: topology.kubernetes.io/zone
+          # Only Pods from a given rollout are taken into consideration when calculating pod affinity.
+          # If you update the Deployment, the replacement Pods follow their own affinity rules
+          # (if there are any defined in the new Pod template)
+          # matchLabelKeys: 
+          # - pod-template-hash
+

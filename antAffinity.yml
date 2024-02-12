@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: antiaffinity
+spec:
+  replicas: 3
+  selector:
+    matchLabels: 
+      app: antidemo
+  template: 
+    metadata:
+      labels:
+        app: antidemo
+    spec:
+      containers:
+      - name: jenkins-container
+        image: jenkins/jenkins:lts
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - antidemo
+            topologyKey: "kubernetes.io/hostname"
