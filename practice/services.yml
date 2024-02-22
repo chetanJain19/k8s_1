@@ -1,0 +1,56 @@
+# services are network abstruction of the pods, enable to communicate between the pods interanaly or extranaly using clusterIp, Nodeport and loadbalance
+# clusterIP: it is default type.with clusterIp the service is only accessible withfrom the cluster, it assign stable ip to the services, this stable ip  can be used by other Pods within the same Kubernetes cluster to communicate with the Pods associated with the Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+#In this example, selector specifies that the Service should forward traffic to Pods labeled with app: backend. Any frontend Pods can then communicate with the backend Pods using the Service's ClusterIP address.
+
+
+#Node Port: Suppose you have a web application running in your cluster and you want to make it accessible from outside the cluster. You can create a NodePort Service to expose the application on a port across all nodes in the cluster.
+#Example YAML for a NodePort Service:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: web-service
+spec:
+  type: NodePort
+  selector:
+    app: web
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+
+        
+#In this example, the Service exposes the web application on port 80. You can access the application from outside the cluster by connecting to any node's IP address on the NodePort, for example, http://node-ip:NodePort.
+
+
+#Loadbalance: If you're running your Kubernetes cluster in a cloud environment that supports load balancers, you can use a LoadBalancer Service to expose your application to external users with automatic provisioning of a load balancer.
+
+#Example YAML for a LoadBalancer Service:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+        
+        
+#When you create this Service, Kubernetes provisions a load balancer in your cloud provider's infrastructure, which distributes incoming traffic to the frontend Pods in your cluster. Users can access your application using the load balancer's IP address.

@@ -1,0 +1,14 @@
+#pod is small deployable unit in k8s and cantaine one or more container
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-demo
+    # annotations:
+    #testing: "true"
+spec:
+  containers:
+     - name: jenkins
+       image: jenkins/jenkins:lts
+       ports:
+         - containerPort: 8080
+         - containerPort: 50000

@@ -1,0 +1,39 @@
+---
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: chethan
+  region: us-west-2
+vpc:
+  id: vpc-0ce53c94ed5b68b2b
+  cidr: 172.31.0.0/16
+  subnets:
+    public:
+      public-one:
+        id: subnet-0bf87f9bd0b65c7fb
+      public-two:
+        id: subnet-045f5c6e522aafab4
+      public-three:
+        id: subnet-039ff3992806dcae6
+nodeGroups:
+  - name: ng-1
+    instanceType: t3.medium
+    desiredCapacity: 1
+    subnets:
+      - public-one
+  - name: ng-2
+    instanceType: t3.medium
+    desiredCapacity: 1
+    subnets:
+      - public-three
+  - name: ng-3
+    instanceType: t3.medium
+    desiredCapacity: 1
+    subnets:
+      - public-two  # Use a different subnet for the third node group
+  - name: ng-4
+    instanceType: t3.medium
+    desiredCapacity: 1
+    subnets:
+      - public-three  # Use a different subnet for the fourth node group
+

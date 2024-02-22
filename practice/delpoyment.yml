@@ -1,0 +1,21 @@
+#deployment is combination of pod and replicaset
+#and also life cycle of pod features in rolling update, scalling, rolling down
+#A deployment is an object in Kubernetes that lets you manage a set of identical pods. Without a deployment, you’d need to create, update, and delete a bunch of pods manually.
+
+apiVersion: app/v1
+kind: Deployment
+metadata:
+  name: dep-example
+spec:
+  replica: 3
+  selector:
+    matchLabels:
+      app: jenkin
+  templete:
+    metadata:
+      labels:
+        app: jenkin
+    spec:
+      containers:
+      - name: jenkins-img
+        image: jenkins/jenkins:lts

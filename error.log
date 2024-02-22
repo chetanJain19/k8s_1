@@ -1,0 +1,2 @@
+
+An error occurred (EntityAlreadyExists) when calling the CreatePolicy operation: A policy called AmazonEKS_EFS_CSI_Driver_Policy already exists. Duplicate names are not allowed.
